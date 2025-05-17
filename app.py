@@ -1,20 +1,47 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+<script>
+    async function sendData() {
+        const dataInput = document.getElementById('dataInput');
+        const data = dataInput.value.trim();
 
-app = Flask(__name__)
-CORS(app)
+        if (!data) {
+            alert("Wpisz wiadomość przed wysłaniem.");
+            return;
+        }
 
-last_data = None
+        try {
+            const response = await fetch('https://flask-backend-u1sd.onrender.com/save_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data }),
+            });
 
-@app.route('https://flask-backend-u1sd.onrender.com/save_data', methods=['POST'])
-def save_data():
-    global last_data
-    data = request.json.get('data')
-    if not data:
-        return jsonify(error='Brak danych'), 400
-    last_data = data
-    return jsonify(success=True)
+            if (response.ok) {
+                dataInput.value = '';
+                fetchData();
+            } else {
+                alert('Błąd podczas wysyłania danych.');
+            }
+        } catch (error) {
+            console.error('Błąd połączenia:', error);
+        }
+    }
 
-@app.route('https://flask-backend-u1sd.onrender.com/get_data', methods=['GET'])
-def get_data():
-    return jsonify(last_data=last_data)
+    async function fetchData() {
+        try {
+            const response = await fetch('https://flask-backend-u1sd.onrender.com/get_data');
+            if (response.ok) {
+                const data = await response.json();
+                const receivedDataDiv = document.getElementById('receivedData');
+                receivedDataDiv.innerHTML = `<p>Ostatnio odebrane: ${data.last_data || 'Brak danych'}</p>`;
+            } else {
+                console.error('Błąd serwera przy pobieraniu danych.');
+            }
+        } catch (error) {
+            console.error('Błąd połączenia przy pobieraniu danych:', error);
+        }
+    }
+
+    window.onload = fetchData;
+</script>
