@@ -6,7 +6,7 @@ CORS(app)
 
 last_data = None
 
-@app.route('/save_data', methods=['POST'])
+@app.route('https://flask-backend-u1sd.onrender.com/save_data', methods=['POST'])
 def save_data():
     global last_data
     data = request.json.get('data')
@@ -15,6 +15,6 @@ def save_data():
     last_data = data
     return jsonify(success=True)
 
-@app.route('/get_data', methods=['GET'])
+@app.route('https://flask-backend-u1sd.onrender.com/get_data', methods=['GET'])
 def get_data():
     return jsonify(last_data=last_data)
