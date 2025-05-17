@@ -6,7 +6,6 @@ CORS(app)
 
 last_data = None
 
-# Tu nie dajemy pełnego linku, tylko ścieżkę!
 @app.route('/save_data', methods=['POST'])
 def save_data():
     global last_data
@@ -21,4 +20,4 @@ def get_data():
     return jsonify(last_data=last_data)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)  # Render potrzebuje jawnego portu
+    app.run(host='0.0.0.0', port=10000)
