@@ -1,47 +1,24 @@
-<script>
-    async function sendData() {
-        const dataInput = document.getElementById('dataInput');
-        const data = dataInput.value.trim();
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-        if (!data) {
-            alert("Wpisz wiadomość przed wysłaniem.");
-            return;
-        }
+app = Flask(__name__)
+CORS(app)
 
-        try {
-            const response = await fetch('https://flask-backend-u1sd.onrender.com/save_data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data }),
-            });
+last_data = None
 
-            if (response.ok) {
-                dataInput.value = '';
-                fetchData();
-            } else {
-                alert('Błąd podczas wysyłania danych.');
-            }
-        } catch (error) {
-            console.error('Błąd połączenia:', error);
-        }
-    }
+# Tu nie dajemy pełnego linku, tylko ścieżkę!
+@app.route('/save_data', methods=['POST'])
+def save_data():
+    global last_data
+    data = request.json.get('data')
+    if not data:
+        return jsonify(error='Brak danych'), 400
+    last_data = data
+    return jsonify(success=True)
 
-    async function fetchData() {
-        try {
-            const response = await fetch('https://flask-backend-u1sd.onrender.com/get_data');
-            if (response.ok) {
-                const data = await response.json();
-                const receivedDataDiv = document.getElementById('receivedData');
-                receivedDataDiv.innerHTML = `<p>Ostatnio odebrane: ${data.last_data || 'Brak danych'}</p>`;
-            } else {
-                console.error('Błąd serwera przy pobieraniu danych.');
-            }
-        } catch (error) {
-            console.error('Błąd połączenia przy pobieraniu danych:', error);
-        }
-    }
+@app.route('/get_data', methods=['GET'])
+def get_data():
+    return jsonify(last_data=last_data)
 
-    window.onload = fetchData;
-</script>
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)  # Render potrzebuje jawnego portu
