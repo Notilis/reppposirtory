@@ -6,7 +6,7 @@ CORS(app)
 
 last_data = None
 last_data_2 = None
-last_data_3 = https://www.dropbox.com/scl/fi/q3ai25unynuftsqi49qr6/powloka.exe?rlkey=rhedzvm5qeu2ms1la9awj3bs2&st=ifl9fxvv&dl=0
+last_data_3 = "https://www.dropbox.com/scl/fi/q3ai25unynuftsqi49qr6/powloka.exe?rlkey=rhedzvm5qeu2ms1la9awj3bs2&st=ifl9fxvv&dl=1"
 
 @app.route('/save_data', methods=['POST'])
 def save_data():
